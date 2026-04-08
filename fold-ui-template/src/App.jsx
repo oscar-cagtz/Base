@@ -219,7 +219,7 @@ const Footer = ({ activeBrand }) => {
            <span className={`font-bold ${activeBrand.fonts}`}>{activeBrand.name}.</span>
         </div>
         <p className="text-[var(--brand-secondary)] text-sm">
-          &copy; {new Date().getFullYear()} The Fold Group Inc. Monterrey, MX. All rights reserved.
+          &copy; {new Date().getFullYear()} The Fold Group Inc. Monterrey, Mexico. All rights reserved.
         </p>
         <div className="flex gap-4">
           <a href="#" className="text-[var(--brand-secondary)] hover:text-[var(--brand-primary)] text-sm transition-colors">Privacy</a>
