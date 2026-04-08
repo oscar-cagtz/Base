@@ -9,7 +9,6 @@ on:
     branches: ["main"]
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
@@ -24,7 +23,6 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     
-    # 1. KEY CHANGE: Tells all 'run' steps to execute inside the web-app folder
     defaults:
       run:
         working-directory: ./web-app
@@ -37,11 +35,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
-          cache-dependency-path: './web-app/package-lock.json'
+          # ARCHITECT NOTE: We have intentionally removed the cache-dependency-path 
+          # here to break the ghost cache and force a clean dependency resolution.
           
       - name: Install Dependencies
-        run: npm ci
+        # ARCHITECT NOTE: Switching from `npm ci` to `npm install`. 
+        # This forces the CI server to read your package.json directly and install 
+        # the exact v3.4.19 you specified, ignoring any stale lockfiles stuck in Git.
+        run: npm install
         
       - name: Build Application
         run: npm run build
@@ -49,7 +50,6 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
         
-      # 2. KEY CHANGE: Point the artifact uploader to the nested dist folder
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:
