@@ -35,14 +35,19 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          # ARCHITECT NOTE: We have intentionally removed the cache-dependency-path 
-          # here to break the ghost cache and force a clean dependency resolution.
+          
+      - name: Sever Phantom Workspace Links
+        # ARCHITECT NOTE: This stops NPM from looking up the directory tree and 
+        # finding the old v4 lockfiles you accidentally generated at the root earlier.
+        run: rm -rf ../package.json ../package-lock.json ../node_modules
           
       - name: Install Dependencies
-        # ARCHITECT NOTE: Switching from `npm ci` to `npm install`. 
-        # This forces the CI server to read your package.json directly and install 
-        # the exact v3.4.19 you specified, ignoring any stale lockfiles stuck in Git.
         run: npm install
+        
+      - name: Force Tailwind v3 Core (The Hammer)
+        # ARCHITECT NOTE: Explicitly forces the exact versions right before the build.
+        # This overrides absolutely any ghost cache or workspace conflicts.
+        run: npm install tailwindcss@3.4.19 postcss autoprefixer --no-save
         
       - name: Build Application
         run: npm run build
