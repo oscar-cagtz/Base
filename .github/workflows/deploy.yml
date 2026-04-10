@@ -56,7 +56,7 @@ jobs:
       ## Override any ghost cache or workspace conflicts with tailwind
       ## (This was added to avoid tailwind v4 from sneaking in, it is not really
       ## needed if the issue does not appear again as it was during setup.)
-      - name: Force Tailwind v3 Core (The Hammer)
+      - name: Force Tailwind v3 Core
         run: npm install tailwindcss@3.4.19 postcss autoprefixer --no-save
 
       ## Build the site to generate the /dist artifacts.
